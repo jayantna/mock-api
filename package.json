@@ -1,16 +1,17 @@
 {
   "name": "mock-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "An API that randomly returns delivered or pending status",
+  "main": "api/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.18.2",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
