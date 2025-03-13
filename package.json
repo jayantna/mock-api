@@ -2,16 +2,19 @@
   "name": "mock-api",
   "version": "1.0.0",
   "description": "An API that randomly returns delivered or pending status",
-  "main": "api/index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "nodemon api/index.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "serverless-http": "^3.2.0"
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.1.9"
   }
 }

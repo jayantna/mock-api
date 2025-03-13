@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status API Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        select {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        #response {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Status API Admin Panel</h1>
+    
+    <div class="card">
+        <h2>Set Admin Status</h2>
+        <select id="statusSelect">
+            <option value="pending">Pending</option>
+            <option value="delivered">Delivered</option>
+            <option value="unknown">Unknown</option>
+        </select>
+        <button id="updateStatus">Update Status</button>
+        <div id="updateResponse"></div>
+    </div>
+    
+    <div class="card">
+        <h2>Test APIs</h2>
+        <button id="testRandom">Test Random Status API</button>
+        <button id="testAdmin">Test Admin Status API</button>
+        <h3>Response:</h3>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        // Update admin status
+        document.getElementById('updateStatus').addEventListener('click', async () => {
+            const status = document.getElementById('statusSelect').value;
+            
+            try {
+                const response = await fetch('/api/admin/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status }),
+                });
+                
+                const data = await response.json();
+                document.getElementById('updateResponse').textContent = 
+                    `Status updated to: ${data.currentStatus}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('updateResponse').textContent = 
+                    'Error updating status';
+            }
+        });
+        
+        // Test random status API
+        document.getElementById('testRandom').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/status/random');
+                const data = await response.json();
+                document.getElementById('response').textContent = 
+                    JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').textContent = 'Error fetching data';
+            }
+        });
+        
+        // Test admin status API
+        document.getElementById('testAdmin').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/status/admin');
+                const data = await response.json();
+                document.getElementById('response').textContent = 
+                    JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').textContent = 'Error fetching data';
+            }
+        });
+    </script>
+</body>
+</html>
