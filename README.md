@@ -6,6 +6,7 @@ A simple Express.js application that provides status APIs with an admin panel UI
 
 - Random status API that returns either "pending" or "delivered"
 - Admin-controlled status API that returns a configurable status
+- Batch processing API for multiple AWB numbers
 - Admin UI for managing status settings
 - Real-time API testing interface
 
@@ -25,25 +26,54 @@ A simple Express.js application that provides status APIs with an admin panel UI
 ### 3. API Endpoints:
 * `GET /api/status/random` - Returns a random status from ['pending', 'delivered']
 * `GET /api/status/admin` - Returns the status set by the admin
+* `POST /api/status/batch` - Processes multiple AWB numbers and returns their statuses based on admin setting
 * `POST /api/admin/status` - Updates the admin status (accepts 'pending', 'delivered', or 'unknown')
+
+## API Details
+
+### Batch Status Request
+
+**Endpoint:** `POST /api/status/batch`
+
+**Request Format:**
+```json
+{
+  "awbNumbers": ["ABC123", "XYZ456", "DEF789"]
+}
+```
+
+**Response Format:**
+```json
+{
+  "results": [
+    {
+      "awbNumber": "ABC123",
+      "status": "pending",
+      "timestamp": "2025-03-13T12:34:56.789Z"
+    },
+    {
+      "awbNumber": "XYZ456",
+      "status": "pending",
+      "timestamp": "2025-03-13T12:34:56.789Z"
+    },
+    {
+      "awbNumber": "DEF789",
+      "status": "pending",
+      "timestamp": "2025-03-13T12:34:56.789Z"
+    }
+  ],
+  "count": 3,
+  "timestamp": "2025-03-13T12:34:56.789Z"
+}
+```
 
 ## Admin UI Features
 
 The admin UI allows you to:
 * Set the status using a dropdown menu
-* Test both APIs with the click of a button
+* Test single APIs (random and admin status)
+* Test batch processing with multiple AWB numbers
 * View API responses in real-time
-
-## Response Format
-
-All APIs return JSON responses with the following format:
-
-```json
-{
-  "status": "pending|delivered|unknown",
-  "timestamp": "2025-03-13T12:34:56.789Z"
-}
-```
 
 ## Dependencies
 

@@ -35,6 +35,34 @@ app.get('/api/status/admin', (req, res) => {
     });
 });
 
+// API 3: Batch status request based on admin setting
+app.post('/api/status/batch', (req, res) => {
+    const { awbNumbers } = req.body;
+    
+    // Validate input
+    if (!awbNumbers || !Array.isArray(awbNumbers)) {
+        return res.status(400).json({ 
+            error: 'Invalid request. "awbNumbers" must be an array.' 
+        });
+    }
+    
+    // Process each AWB number and return the admin status for each
+    const timestamp = new Date().toISOString();
+    const results = awbNumbers.map(awbNumber => {
+        return {
+            awbNumber,
+            status: adminStatusSetting,
+            timestamp
+        };
+    });
+    
+    res.json({
+        results,
+        count: results.length,
+        timestamp
+    });
+});
+
 // API to update admin status setting
 app.post('/api/admin/status', (req, res) => {
     const { status } = req.body;
